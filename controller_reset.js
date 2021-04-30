@@ -18,7 +18,6 @@ CPUInfo = device.getController().onlineModel.deviceInfo.getGeneralInfo().getCpuT
 getCPUType(CPUInfo.mioType, CPUInfo.mioVariant)
 
 // Choice Catalog
-
 function getCatalog(selection){
 	var version  = java.lang.System.getProperty("SolutionCenter.version").replace(" ","");
 	version = version.substr(0,version.search("Branch"))
@@ -64,7 +63,7 @@ unzip(catalog.path, "c:/temp/catalog/")
 
 // Ask create Offline Device yes/no
 
-if (showQuestionDialog("Wollen Sie ein Offline Device erstellen?", "Backup")){
+if (showQuestionDialog("Would you like to create a offline device,\nbefore reset it?", "Backup")){
 	print("yes")
 // -yes Create Offline Device
 }
