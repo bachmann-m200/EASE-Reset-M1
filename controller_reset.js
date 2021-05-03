@@ -4,7 +4,7 @@ loadModule('/Bachmann/Catalog');
 loadModule('/System/Resources');
 
 include('utils.js')
-
+// HEllo WOrld
 // Choice CPU from Navigator
 device = getDevice();
 print(device)
@@ -55,4 +55,5 @@ if (showQuestionDialog("Would you like to create a offline device,\nbefore reset
 
 // copy files from catalog to device
 
+// delete used catalog from c:/temp/catalog/
 
