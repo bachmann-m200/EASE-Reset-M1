@@ -4,7 +4,10 @@ loadModule('/Bachmann/Catalog');
 loadModule('/System/Resources');
 
 include('utils.js')
+<<<<<<< HEAD
+=======
 // HEllo WOrld
+>>>>>>> branch 'main' of https://github.com/bachmann-m200/EASE-Reset-M1.git
 // Choice CPU from Navigator
 device = getDevice();
 print(device)
