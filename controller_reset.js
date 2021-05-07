@@ -6,7 +6,6 @@ loadModule('/System/Resources');
 include('utils.js')
 // Choice CPU from Navigator
 device = getDevice();
-print(device)
 // Get CPU Info
 function getCPUType(mioType, mioVariant){
 	print(mioType)
@@ -32,8 +31,10 @@ bootDev = device.getController().onlineModel.deviceInfo.getGeneralInfo().getBoot
 // Ask create Offline Device yes/no
 if (showQuestionDialog("Would you like to create a offline device,\nbefore reset it?", "Backup")){
 	devName = showInputDialog("Please enter a name of the offline device!", 'M200', 'Offline device name')	
+
 	// TODO: make sure a link to a solution project will be used in first parameter, even if sub folder is selected
-	createOfflineDevice(showFolderSelectionDialog('workspace://')+'/_templates', devName, devAdr, devType, [mem, "nvram0"], bootDev) // Add additional memories if needed
+	solutionProject = getSolutionProjectName(showFolderSelectionDialog('workspace://'))+'_templates';
+	createOfflineDevice(solutionProject, devName, devAdr, devType, [mem, "nvram0"], bootDev) // Add additional memories if needed
 	// TODO: Copy all files:
 	
 // -yes Create Offline Device
