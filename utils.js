@@ -67,6 +67,7 @@
 	}
 
 	function getSolutionProjectName(str){
+		var str = str + "/"
 		const regex = /workspace:..\S*?\//gm;
 		let m;
 		var result;
@@ -76,11 +77,11 @@
 		    if (m.index === regex.lastIndex) {
 		        regex.lastIndex++;
 		    }
-		    
+
 		    // The result can be accessed through the `m`-variable.
 		    m.forEach((match, groupIndex) => {
-		    	return match;
+		    	result = match;
 		    });
+		    return result
 		}
-//		return result
 	}
