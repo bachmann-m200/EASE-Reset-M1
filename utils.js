@@ -1,3 +1,7 @@
+loadModule('/Bachmann/Device');
+loadModule('/System/Resources');
+loadModule('/System/Platform');
+
 	function getCatalog(selection) {
 		var version = java.lang.System.getProperty("SolutionCenter.version")
 				.replace(" ", "");
@@ -83,5 +87,40 @@
 		    	result = match;
 		    });
 		    return result
+		}
+	}
+	
+	function copyFilesFromM1(m1, remote, local)
+	{
+		// prepare pathes of local and remote device
+		if ( !remote.startsWith("/") ) remote = "/" + remote 
+		createFolder(local+remote);		
+		recursivGetFile(m1,remote,local)
+	
+		function recursivGetFile(m1,dirPath,localDir)
+		// check if isDir and copy file to local dir if not
+		{
+			m1.connect()
+			var dir = m1.getController().getFileSystem().listFiles(dirPath)
+			for ( f in dir )
+			{
+				m1.connect()
+				var fPath = m1.getController().getFileSystem().listFiles(dirPath)[f].path
+				var fName = m1.getController().getFileSystem().listFiles(dirPath)[f].name
+				
+				if (m1.getController().getFileSystem().listFiles(dirPath)[f].isDir())
+				{
+					m1.connect()
+					createFolder(localDir + fPath)
+					recursivGetFile(m1,fPath,localDir)
+				}
+				else
+				{
+					waitForEvent(null,250);
+					m1.connect()
+					getFileFromDevice(m1, fPath + fName, localDir + fPath + fName);
+					waitForEvent(null,250);
+				}
+			}
 		}
 	}
