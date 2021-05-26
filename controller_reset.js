@@ -2,8 +2,10 @@ loadModule('/Bachmann/Device');
 loadModule('/System/UI');
 loadModule('/Bachmann/Catalog');
 loadModule('/System/Resources');
+loadModule('/System/Platform');
 
 include('utils.js')
+var tempCatalogPath =  "c:/temp/catalog/"
 // Choice CPU from Navigator
 device = getDevice();
 // Get CPU Info
@@ -20,43 +22,53 @@ getCPUType(CPUInfo.mioType, CPUInfo.mioVariant)
 mbases = getInstalledCatalogs();
 selection = showSelectionDialog(mbases.toArray(), 'Choose a mbase version to be installed', 'Choose mbase version');
 
-catalog = getCatalog(selection)
-//unzip(catalog.path, "c:/temp/catalog/")
+catalog = getCatalog(selection)	
+createFolder(tempCatalogPath);
+//unzip(catalog.path, tempCatalogPath);
 
 mem = device.getController().onlineModel.deviceInfo.getGeneralInfo().getBootDevice().replace("/","").replace("/","")
 devAdr = device.getController().onlineModel.deviceInfo.m1Controller.connectionInfo.address
 devType = getCpuName(CPUInfo.mioType, CPUInfo.mioVariant)
 bootDev = device.getController().onlineModel.deviceInfo.getGeneralInfo().getBootDevice().replace("/","").replace("/","")
-print(mem)
+
 // Ask create Offline Device yes/no
-if (showQuestionDialog("Would you like to create a offline device,\nbefore reset it?", "Backup")){
+if (showQuestionDialog("Would you like to create a offline device,\nbefore reset it?", "Backup"))
+{
+// -yes Create Offline Device
 	devName = showInputDialog("Please enter a name of the offline device!", 'M200', 'Offline device name')	
 
-	// TODO: make sure a link to a solution project will be used in first parameter, even if sub folder is selected
+	// make sure a link to a solution project will be used in first parameter, even if sub folder is selected
 	solutionProject = getSolutionProjectName(showFolderSelectionDialog('workspace://'))+'_templates';
-	createOfflineDevice(solutionProject, devName, devAdr, devType, [mem, "nvram0"], bootDev) // Add additional memories if needed
+	createOfflineDevice(solutionProject, devName, devAdr, devType, [mem, "nvram0","ram0"], bootDev) // Add additional memories if needed
 
-	
-	// TODO: clean Offline Device
-	function recursiveCleanOffDev(dir){
-		
+	// clean Offline Device
+	function cleanLocalOffDev(dir){
+		deleteFolder(dir+"/app")
+		deleteFolder(dir+"/drv")
+		deleteFolder(dir+"/classes")
+		deleteFolder(dir+"/srv")
+		deleteFolder(dir+"/sys")
+		deleteFile(dir+"/mconfig.ini")
+
 	}
+	cleanLocalOffDev(solutionProject+"/"+devName+"/"+mem)
 	
 	print("start copy files from " + mem + " to " + solutionProject + "/" + devName ) 
 	copyFilesFromM1(device, mem, solutionProject + "/" + devName)
 	
 	if (showQuestionDialog("Would you like to backup nvram0,\nas well?", "nvram0"))
 		copyFilesFromM1(device, "nvram0", solutionProject + "/" + devName)
+
+	if (showQuestionDialog("Would you like to backup ram0,\nas well?", "ram0"))
+			copyFilesFromM1(device, "ram0", solutionProject + "/" + devName)
 	
 	print("Copy of device done")
-	
-	
-// -yes Create Offline Device
 }
 
 
 // Delete Online Device
-
+if (showQuestionDialog("Are you sure to delete the M1?\nAll files will be deleted!", "Delete files from M1"))
+{
 
 // are keys in keys folder
 
@@ -66,13 +78,13 @@ if (showQuestionDialog("Would you like to create a offline device,\nbefore reset
 
 // -yes delete keys folder
 
-
+}
 // copy files from catalog to device
-
+		//from e.g.: C:\temp\catalog\systemcatalog4_33_99\data\systemsoftware\bootdevice
 
 // delete used catalog from c:/temp/catalog/
 
-
+print("ALL DONE")
 
 
 
