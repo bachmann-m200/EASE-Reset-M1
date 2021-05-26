@@ -5,15 +5,18 @@
 * toolbar : Solution Navigator
 * menu : Solution Navigator
 */
-loadModule('/Bachmann/Device');
 loadModule('/System/UI');
-loadModule('/Bachmann/Catalog');
 loadModule('/System/Resources');
 loadModule('/System/Platform');
+loadModule('/Bachmann/MConfig');
+loadModule('/Bachmann/Catalog');
+loadModule('/Bachmann/Device');
 
 include('utils.js')
+
 var tempCatalogPath =  "c:/temp/catalog/"
 var keysFolder = "keys"
+var subnetmask = "ffffff00"
 
 // Choose CPU from Navigator
 var device = getDevice();
@@ -77,7 +80,7 @@ if (showQuestionDialog("Are you sure to format the memory of the M1?\n\nWill ask
 				if ( showQuestionDialog("!!! ATTENTION !!!\n\nFound keys on device.\nAre you sure to DELETE the key-files as well?", "Confirm delete of keys") == false )
 					continue;
 			}
-			if (thisDir[f].canDelete())
+			if (thisDir[f].canDelete() && !(thisDir[f].name == 'mconfig.ini' && dir.search(mem) != -1))
 				thisDir[f].delete()
 		}		
 	}
@@ -87,6 +90,7 @@ if (showQuestionDialog("Are you sure to format the memory of the M1?\n\nWill ask
 			cleanDevice(device,"/"+partitions[drive].getName())	
 	}
 }
+
 if (showQuestionDialog("Do you like to update your bootdevice "+mem, "Update "+mem))
 {
 // copy files from catalog to device
@@ -106,6 +110,7 @@ if (showQuestionDialog("Do you like to update your bootdevice "+mem, "Update "+m
 		var files = findFiles('*', dir, true)
 		for (var f in files)
 		{
+
 			regexArr[f] = new RegExp(/bootdevice.(.*)/gm);
 			var result = regexArr[f].exec(files[f].path)			
 			putFileToDevice(device, files[f].path, "/" + mem + "/" + result[1].replace(/\\/g, '/'));	
@@ -116,6 +121,9 @@ if (showQuestionDialog("Do you like to update your bootdevice "+mem, "Update "+m
 	// delete used catalog
 	deleteFolder(tempCatalogPath); // TODO: Check why this is not deleting the catalog folder. Recursive delete?
 }
+
+setMConfigValue(device, "SYSTEM", "Network", "NetAddress", devAdr + ":" + subnetmask);
+
 if (showQuestionDialog("Do you like to reboot the M1 to complete reset?", "Reboot M1"))
 	device.reboot()
 
