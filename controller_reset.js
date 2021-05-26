@@ -6,8 +6,10 @@ loadModule('/System/Platform');
 
 include('utils.js')
 var tempCatalogPath =  "c:/temp/catalog/"
+var keysFolder = "keys"
 // Choice CPU from Navigator
-device = getDevice();
+var device = getDevice();
+var partitions = device.getController().getFileSystem().getRoot().listFiles()
 // Get CPU Info
 function getCPUType(mioType, mioVariant){
 	print(mioType)
@@ -53,31 +55,44 @@ if (showQuestionDialog("Would you like to create a offline device,\nbefore reset
 	}
 	cleanLocalOffDev(solutionProject+"/"+devName+"/"+mem)
 	
-	print("start copy files from " + mem + " to " + solutionProject + "/" + devName ) 
-	copyFilesFromM1(device, mem, solutionProject + "/" + devName)
-	
-	if (showQuestionDialog("Would you like to backup nvram0,\nas well?", "nvram0"))
-		copyFilesFromM1(device, "nvram0", solutionProject + "/" + devName)
+	print("start copy files from " + device.getController().getName() + " to " + solutionProject + "/" + devName ) 
 
-	if (showQuestionDialog("Would you like to backup ram0,\nas well?", "ram0"))
-			copyFilesFromM1(device, "ram0", solutionProject + "/" + devName)
-	
+	for ( var drive in partitions)
+	{
+		if (showQuestionDialog("Would you like to backup " + partitions[drive].getName() + "\nas well?", partitions[drive].getName()))
+			copyFilesFromM1(device, "/"+partitions[drive].getName(), solutionProject + "/" + devName)
+
+	}
 	print("Copy of device done")
 }
 
 
 // Delete Online Device
-if (showQuestionDialog("Are you sure to delete the M1?\nAll files will be deleted!", "Delete files from M1"))
+if (showQuestionDialog("Are you sure to format the memory of the M1?\n\nWill ask for each memory again!", "Delete files from M1"))
 {
-
-// are keys in keys folder
-
-
-// -yes Ask delete licences yes/no
-
-
-// -yes delete keys folder
-
+	var deleteKeys = null; // null = Startup; true = delete keys; false = keep keys
+	
+	function cleanDevice(m1,dir)
+	{
+		m1.connect()
+		var thisDir = m1.getController().getFileSystem().listFiles(dir)
+		for ( f in thisDir )
+		{
+			if ( thisDir[f].name.search(keysFolder) != -1 && deleteKeys == null)
+			{
+				// -Ask delete licences | no = continue -> next folder or file;
+				if ( showQuestionDialog("!!! ATTENTION !!!\n\nFound keys on device.\nAre you sure to DELETE the key-files as well?", "Confirm delete of keys") == false )
+					continue;
+			}
+			if (thisDir[f].canDelete())
+				thisDir[f].delete()
+		}		
+	}
+	for ( var drive in partitions)
+	{
+		if (showQuestionDialog("Would you like to delete " + partitions[drive].getName() + "\nas well?", partitions[drive].getName()))
+			cleanDevice(device,"/"+partitions[drive].getName())	
+	}
 }
 // copy files from catalog to device
 		//from e.g.: C:\temp\catalog\systemcatalog4_33_99\data\systemsoftware\bootdevice
