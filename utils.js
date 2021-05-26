@@ -116,10 +116,10 @@ loadModule('/System/Platform');
 				}
 				else
 				{
-					waitForEvent(null,250);
+					waitForEvent(null,300);
 					m1.connect()
 					getFileFromDevice(m1, fPath + fName, localDir + fPath + fName);
-					waitForEvent(null,250);
+					waitForEvent(null,300);
 				}
 			}
 		}

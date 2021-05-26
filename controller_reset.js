@@ -1,3 +1,10 @@
+/* 
+* name : M1 Reset
+* image : platform:/plugin/at.bachmann.ui.solution/icons/deploy.png
+* description : Reset M1 to a catalog version
+* toolbar : Solution Navigator
+* menu : Solution Navigator
+*/
 loadModule('/Bachmann/Device');
 loadModule('/System/UI');
 loadModule('/Bachmann/Catalog');
@@ -7,27 +14,14 @@ loadModule('/System/Platform');
 include('utils.js')
 var tempCatalogPath =  "c:/temp/catalog/"
 var keysFolder = "keys"
-// Choice CPU from Navigator
+
+// Choose CPU from Navigator
 var device = getDevice();
 var partitions = device.getController().getFileSystem().getRoot().listFiles()
+
 // Get CPU Info
-function getCPUType(mioType, mioVariant){
-	print(mioType)
-	print(mioVariant)
-	return "MC220"
-}
-
 CPUInfo = device.getController().onlineModel.deviceInfo.getGeneralInfo().getCpuTypeInfo();
-getCPUType(CPUInfo.mioType, CPUInfo.mioVariant)
-
-// Choice Catalog
-mbases = getInstalledCatalogs();
-selection = showSelectionDialog(mbases.toArray(), 'Choose a mbase version to be installed', 'Choose mbase version');
-
-catalog = getCatalog(selection)	
-createFolder(tempCatalogPath);
-//unzip(catalog.path, tempCatalogPath);
-
+// Get needen information from online device
 mem = device.getController().onlineModel.deviceInfo.getGeneralInfo().getBootDevice().replace("/","").replace("/","")
 devAdr = device.getController().onlineModel.deviceInfo.m1Controller.connectionInfo.address
 devType = getCpuName(CPUInfo.mioType, CPUInfo.mioVariant)
@@ -66,7 +60,6 @@ if (showQuestionDialog("Would you like to create a offline device,\nbefore reset
 	print("Copy of device done")
 }
 
-
 // Delete Online Device
 if (showQuestionDialog("Are you sure to format the memory of the M1?\n\nWill ask for each memory again!", "Delete files from M1"))
 {
@@ -94,73 +87,36 @@ if (showQuestionDialog("Are you sure to format the memory of the M1?\n\nWill ask
 			cleanDevice(device,"/"+partitions[drive].getName())	
 	}
 }
+if (showQuestionDialog("Do you like to update your bootdevice "+mem, "Update "+mem))
+{
 // copy files from catalog to device
-		//from e.g.: C:\temp\catalog\systemcatalog4_33_99\data\systemsoftware\bootdevice
-
-// delete used catalog from c:/temp/catalog/
-
-print("ALL DONE")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//##################### BACKUP ##############################################################################
-
-
-
-//loadModule('/System/Platform');
-
-// TODO: Ignore solution center exceptio while progress
-// TODO: Copy all files: Exception tritt nach einigen Dateien auf: 
-//		 				   Die Ressource '/DEMO/M1.vxworks/.filesystem' ist nicht vorhanden.
-//						   Vermutlich wird die Verbindung unterbrochen!?
-/*	function recursiveIsCpyFile(dir){
-	for ( var d in device.getController().getFileSystem().listFiles(dir) )
+	// Choose Catalog
+	mbases = getInstalledCatalogs();
+	selection = showSelectionDialog(mbases.toArray(), 'Choose a mbase version to be installed', 'Choose mbase version');
+	catalog = getCatalog(selection)	
+	createFolder(tempCatalogPath);
+	unzip(catalog.path, tempCatalogPath);
+	
+	var bootdevFiles = tempCatalogPath + "systemcatalog" + catalog.vers + "/data/systemsoftware/bootdevice"
+	var regexArr = []
+	
+	function copyFilesToM1(m1, dir)
 	{
-		device.connect();
-		waitForEvent(null,100);
-		var thisDir = device.getController().getFileSystem().listFiles(dir)[d]
-		createFolder(solutionProject + "/" + devName + dir)
-		
-		if ( thisDir.isDir() == true && thisDir.canRead() && thisDir.getName() != "/cfc0")
+		m1.connect()
+		var files = findFiles('*', dir, true)
+		for (var f in files)
 		{
-			recursiveIsCpyFile(dir + thisDir.getName() + "/" )
-		}
-		else if ( thisDir.canRead() && !thisDir.getName().startsWith("."))
-		{
-			print("Copy " + thisDir.getName())						
-			createFolder(solutionProject + "/" + devName + dir)
-			
-			if ( fileExists(solutionProject + "/" + devName + dir + thisDir.getName()) )
-			{
-				deleteFile(solutionProject + "/" +  devName + dir + thisDir.getName())
-			}
-
-			getFileFromDevice(device, dir + thisDir.getName(), solutionProject + "/" + devName + dir + thisDir.getName());
-			print("done")
-		}
-		device.disconnect()
+			regexArr[f] = new RegExp(/bootdevice.(.*)/gm);
+			var result = regexArr[f].exec(files[f].path)			
+			putFileToDevice(device, files[f].path, "/" + mem + "/" + result[1].replace(/\\/g, '/'));	
+		}		
 	}
+	copyFilesToM1(device, bootdevFiles)
+
+	// delete used catalog
+	deleteFolder(tempCatalogPath); // TODO: Check why this is not deleting the catalog folder. Recursive delete?
 }
-	recursiveIsCpyFile("/cfc0/")
-*/			
-//
+if (showQuestionDialog("Do you like to reboot the M1 to complete reset?", "Reboot M1"))
+	device.reboot()
+
+showInfoDialog("Reset and/or update of choose device is finished", "Done");
