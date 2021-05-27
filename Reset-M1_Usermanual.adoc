@@ -115,7 +115,7 @@ image::doc\pictures\RebootM1.png[]
 
 	The last message in the console of all is done:
 
-image::doc\pictures\AllDone.png[]
+image::doc\pictures\allDone.png[]
 
 	
 	  
