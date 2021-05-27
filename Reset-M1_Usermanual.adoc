@@ -1,0 +1,121 @@
+= Usermanual Reset-M1 plugin
+ 
+== General
+	This plugin is made, to do several things.
+	After startup, the plugin will ask if you like to backup your M1.
+	If this will be confirmed, each single drive on the controller will be checked and with
+	popup-windows the plugin will ask you to backup one by one. 
+		e.g. flash0, nvram0, cfc0, cfc0_1 and so on
+	
+	If this is done, the plugin will ask you, if you are sure to format the drives of the M1.
+	If this is confirmed, the plugin will ask again for each single drive.
+	Even if a folder called "keys" is detected, the script will ask again if you are sure to delete this folder.
+	
+	If all is deleted, the plugin will ask you which mbase version you like to copy to the M1.
+	The choosen one will be copied and the last IP-address will be added to the mconfig.ini.
+	
+	At the end the plugin will ask for reboot the M1 to finalize the reset.   
+
+[NOTE]
+====
+The progress of each function will be shown in the Console of the SolutionCenter.
+Some processes need some more seconds or a minute to be done.
+
+image::doc\pictures\Progress.png[]
+
+Based on the network connection you may need a bit of patience.
+====
+	 
+	
+== 1. How to start
+	To startup the functionality you have to switch to the Solution perspective.
+	In the toolbar of the Solution Navigator, you can find a "deploy-icon" which starts the plugin after click it.
+
+image::doc\pictures\toolbar.png[]
+	
+	After ckick this icon, a device selection window will open.
+	Choose the device you like to reset and confirm with "Finish"
+	
+image::doc\pictures\chooseDevice.png[]
+
+== 2. Back up the choosen device
+	After choose the device, the plugin will ask fof back up this device as template.
+	
+image::doc\pictures\BackupSelection.png[]
+	
+	By confrim with "Yes" additional slection window will open.
+	Choose a name of the template, and confirm with "OK".
+		
+image::doc\pictures\DeviceName.png[]
+
+	Choose the Solution project, where you like to store the M1-Backup/template, and confirm with "OK".
+	
+image::doc\pictures\chooseProject.png[]
+	
+	Now the plugin starts to scan the available drives on the M1, and ask for backup one by one:
+	
+image::doc\pictures\BackUpFlash.png[]
+image::doc\pictures\BackUpCfc0.png[]
+image::doc\pictures\BackUpnvram0.png[]
+image::doc\pictures\BackUpnvram1.png[]
+image::doc\pictures\BackUpRam.png[]
+	
+	Based on what you choosed, the system will copyy all the files from the M1 to your filesystem.
+	
+image::doc\pictures\Copied.png[]
+
+
+== 3. Format M1 drives
+	If the copy process was not confirmed or is done, the system will ask 
+	if you like to format the file-memory of the M1.
+	
+image::doc\pictures\DeleteM1.png[]
+
+	By confirm with "Yes" the system will ask for each single drive again.
+	
+image::doc\pictures\Deleteflash0.png[]
+image::doc\pictures\Deletecfc0.png[]
+image::doc\pictures\Deletenvram0.png[]
+image::doc\pictures\Deletenvram1.png[]
+image::doc\pictures\Deleteram0.png[]
+	
+	Whenever the system will find a keys folder, it will ask you if you are realy sure to delet
+	even the keys of the M1.
+	
+image::doc\pictures\Deletekeys.png[]
+
+	If you like to leave the keys on the M1, press "No".
+	
+[IMPORTANT]
+====
+If you choose "Yes" here, the keys will be deleted, and you need to get them from your filesystem. 
+
+If you do not have a backup of the keys, you can get them at from: https://selfservice.bachmann.info/#/login
+====
+
+== 4. Set M1 to default mbase version
+	The system will ask if you like to update your device.
+	Just the selected boot device will be updated!
+	
+image::doc\pictures\UpdateBootdevice.png[]
+	
+	By confirm with "Yes" you need to choose a mbase Version you like to use.
+	
+image::doc\pictures\Chooseversion.png[]
+	
+	The choosen catalog will be unziped and the bootdevice will be copied to your M1.
+	
+	If this is done, the plugin will chnage the IP-Address of eth0 from 192.168.0.1 to the address 
+	which was set before reset the M1.
+	
+== 5. Finalization
+	If all choosen things are done, the system asks for a reboot to finalize the process.
+
+image::doc\pictures\RebootM1.png[]
+
+	The last message in the console of all is done:
+
+image::doc\pictures\AllDone.png[]
+
+	
+	  
