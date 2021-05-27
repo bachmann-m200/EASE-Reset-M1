@@ -124,10 +124,10 @@ if (showQuestionDialog("Do you like to update your bootdevice "+mem, "Update "+m
 	
 	function copyFilesToM1(m1, dir)
 	{
-		m1.connect()
 		var files = findFiles('*', dir, true)
 		for (var f in files)
 		{
+			m1.connect()
 			print(progress+='*')
 			regexArr[f] = new RegExp(/bootdevice.(.*)/gm);
 			var result = regexArr[f].exec(files[f].path)			
