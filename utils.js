@@ -1,7 +1,7 @@
 loadModule('/Bachmann/Device');
 loadModule('/System/Resources');
 loadModule('/System/Platform');
-
+	
 	function getCatalog(selection) {
 		var version = java.lang.System.getProperty("SolutionCenter.version")
 				.replace(" ", "");
@@ -104,6 +104,7 @@ loadModule('/System/Platform');
 			var dir = m1.getController().getFileSystem().listFiles(dirPath)
 			for ( f in dir )
 			{
+				print(progress+='*')
 				m1.connect()
 				var fPath = m1.getController().getFileSystem().listFiles(dirPath)[f].path
 				var fName = m1.getController().getFileSystem().listFiles(dirPath)[f].name
@@ -123,4 +124,5 @@ loadModule('/System/Platform');
 				}
 			}
 		}
+		progress = ""
 	}
