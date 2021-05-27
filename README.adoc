@@ -9,7 +9,7 @@
 	You can even use the git perspective of solution center, to import it to your workspace.
 	To do that you have to open the git-perspective.
 	Press the maginfier glas in the top right corner of the solutionCenter and enter git to the search bar.
-	Choose the row "Perspective Git- Perspective for managing..." to open the perspective
+	Choose the row "Perspective Git- Perspective for managing..." to open the perspective 
 	
 image::doc\pictures\openGitPerspective.gif[]
 	
