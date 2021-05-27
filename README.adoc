@@ -3,11 +3,12 @@
 == 1. Download
 === 1.1 In filesystem
 	Download the source code from git hub and store it on your PC.
-	https://github.com/bachmann-m200/EASE-Reset-M1.git[https://github.com] 
+	https://github.com/bachmann-m200/EASE-Reset-M1.git
 
 === 1.2 In SolutionCenter
 	You can even use the git perspective of solution center, to import it to your workspace.
-	To do that you have to open the git-perspective, by press the maginfier glas in the top right corner of the solutionCenter and enter git to the search bar
+	To do that you have to open the git-perspective.
+	Press the maginfier glas in the top right corner of the solutionCenter and enter git to the search bar.
 	Choose the row "Perspective Git- Perspective for managing..." to open the perspective
 	
 image::doc\pictures\openGitPerspective.gif[]
@@ -26,18 +27,21 @@ image::doc\pictures\addProjectToWs.gif[]
 == 2. Configure Workspace to use it
 === 2.1 Script location
 	To enable the script in the Workspace, you have to add the script location in the preferences.
-	Open the preferences and go to "Scripting->Script Locations" an add the project path (Workspace if imported, or filesystem) 
+	Open the preferences and go to "Scripting->Script Locations" an add the project path.
+		- Filesystem [step 1.1] 
+		- Workspace if imported [step 1.2 + Tip] 
 	
 image::doc\pictures\ScriptLocation.gif[]
 
-=== 2.2 Add plugin
+=== 2.2 Add plugin to Solution Center
 	In the project you will find a "dropins" folder.
 	The content of this folder needs to be saved in the solution Center Installation path in th dropins folder.
 	e.g. Default: C:\bachmann\SolutionCenter\V2.50Release\dropins
 
 == 3. Finalize installation
 	Close the Solution Center and reopen it in the same workspace
-	You will now find a new tool in the toolbar of the Solution Navigator, which starts the reset of a M1-Controller
+	You will now find a new tool in the toolbar of the Solution Navigator.
+	By press the new button (looks like the deplay icon) the reset of a M1-Controller will start.
 	
 image::doc\pictures\Done.png[]
 	
