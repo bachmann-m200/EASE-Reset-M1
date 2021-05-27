@@ -9,9 +9,9 @@
 	
 	If this is done, the plugin will ask you, if you are sure to format the drives of the M1.
 	If this is confirmed, the plugin will ask again for each single drive.
-	Even if a folder called "keys" is detected, the script will ask again if you are sure to delete this folder.
+	If a folder called "keys" is detected on one of the drives, the script will ask again if you are sure to delete this folder.
 	
-	If all is deleted, the plugin will ask you which mbase version you like to copy to the M1.
+	If all choosen drives are formated, the plugin will ask you which mbase version you like to copy to the bootdevice.
 	The choosen one will be copied and the last IP-address will be added to the mconfig.ini.
 	
 	At the end the plugin will ask for reboot the M1 to finalize the reset.   
@@ -39,7 +39,7 @@ image::doc\pictures\toolbar.png[]
 image::doc\pictures\chooseDevice.png[]
 
 == 2. Back up the choosen device
-	After choose the device, the plugin will ask fof back up this device as template.
+	After choosing the device, the plugin will ask for backup this device as a template.
 	
 image::doc\pictures\BackupSelection.png[]
 	
@@ -52,7 +52,7 @@ image::doc\pictures\DeviceName.png[]
 	
 image::doc\pictures\chooseProject.png[]
 	
-	Now the plugin starts to scan the available drives on the M1, and ask for backup one by one:
+	Now the plugin starts to check the available drives on the M1, and ask for backup one by one:
 	
 image::doc\pictures\BackUpFlash.png[]
 image::doc\pictures\BackUpCfc0.png[]
@@ -60,7 +60,8 @@ image::doc\pictures\BackUpnvram0.png[]
 image::doc\pictures\BackUpnvram1.png[]
 image::doc\pictures\BackUpRam.png[]
 	
-	Based on what you choosed, the system will copyy all the files from the M1 to your filesystem.
+	Based on what is choosed, the system will copy all the files from the M1 to your filesystem 
+	at the choosen Solution project.
 	
 image::doc\pictures\Copied.png[]
 
@@ -79,8 +80,8 @@ image::doc\pictures\Deletenvram0.png[]
 image::doc\pictures\Deletenvram1.png[]
 image::doc\pictures\Deleteram0.png[]
 	
-	Whenever the system will find a keys folder, it will ask you if you are realy sure to delet
-	even the keys of the M1.
+	Whenever the system will find a keys folder, it will stop and ask, if you are really like 
+	to delete the keys of the M1.
 	
 image::doc\pictures\Deletekeys.png[]
 
@@ -88,28 +89,34 @@ image::doc\pictures\Deletekeys.png[]
 	
 [IMPORTANT]
 ====
-If you choose "Yes" here, the keys will be deleted, and you need to get them from your filesystem. 
+If you accident choose "Yes", the keys will be deleted, and you need to copy them from your filesystem. 
 
-If you do not have a backup of the keys, you can download at: https://selfservice.bachmann.info/#/login
+If you do not have a backup of the keys, you can download them at your bachmann account.
+https://selfservice.bachmann.info/#/login
 ====
 
 == 4. Set M1 to default mbase version
 	The system will ask if you like to update your device.
-	Just the selected boot device will be updated!
 	
 image::doc\pictures\UpdateBootdevice.png[]
-	
-	By confirm with "Yes" you need to choose a mbase Version you like to use.
+
+[NOTE]
+====
+Just the selected boot device will be updated!
+====	
+		
+	By confirm with "Yes" you need to choose the mbase Version you like to use.
 	
 image::doc\pictures\Chooseversion.png[]
 	
-	The choosen catalog will be unziped and the bootdevice will be copied to your M1.
+	The choosen catalog will be unziped to your filesystem and the included bootdevice 
+	will be copied to your M1.
 	
-	If this is done, the plugin will chnage the IP-Address of eth0 from 192.168.0.1 to the address 
-	which was set before reset the M1.
+	If this is done, the plugin will change the IP-Address of eth0 from 192.168.0.1 to the address 
+	which was set before the reset of the M1. (Subnetmask: 255.255.255.0)
 	
 == 5. Finalization
-	If all choosen things are done, the system asks for a reboot to finalize the process.
+	If all choosen things are done, the system asks for a reboot, to finalize the process.
 
 image::doc\pictures\RebootM1.png[]
 
@@ -117,5 +124,6 @@ image::doc\pictures\RebootM1.png[]
 
 image::doc\pictures\allDone.png[]
 
+=== Your M1-controller has now been reset successfully 
 	
 	  
