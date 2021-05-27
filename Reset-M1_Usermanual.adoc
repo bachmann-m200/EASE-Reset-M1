@@ -90,7 +90,7 @@ image::doc\pictures\Deletekeys.png[]
 ====
 If you choose "Yes" here, the keys will be deleted, and you need to get them from your filesystem. 
 
-If you do not have a backup of the keys, you can get them at from: https://selfservice.bachmann.info/#/login
+If you do not have a backup of the keys, you can download at: https://selfservice.bachmann.info/#/login
 ====
 
 == 4. Set M1 to default mbase version
