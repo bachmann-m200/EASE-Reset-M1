@@ -14,7 +14,7 @@ image::C:\github\EASE-Reset-M1\doc\pictures\OpenGitPerspective.gif[]
 	
 	Choose "Clone a Git repository and enter the git link as well as your login for github.
 	
-image::C:\github\EASE-Reset-M1\doc\pictures\importProject.gif[]
+image::doc\pictures\importProject.gif[]
 	
 [TIP]
 ====
