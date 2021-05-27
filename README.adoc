@@ -1,0 +1,43 @@
+= Installation of M1-reset plugin
+
+== 1. Download
+=== 1.1 In filesystem
+	Download the source code from git hub and store it on your PC.
+	https://github.com/bachmann-m200/EASE-Reset-M1.git[https://github.com] 
+
+=== 1.2 In SolutionCenter
+	You can even use the git perspective of solution center, to import it to your workspace.
+	To do that you have to open the git-perspective, by press the maginfier glas in the top right corner of the solutionCenter and enter git to the search bar
+	Choose the row "Perspective Git- Perspective for managing..." to open the perspective
+	
+image::C:\github\EASE-Reset-M1\doc\pictures\OpenGitPerspective.gif[]
+	
+	Choose "Clone a Git repository and enter the git link as well as your login for github.
+	
+image::C:\github\EASE-Reset-M1\doc\pictures\importProject.gif[]
+	
+[TIP]
+====
+With an right mousclick to the git repository, you can choose "improt project" to import it to your workspace as an "Scripting Project" if you like to change or add things.
+
+image::C:\github\EASE-Reset-M1\doc\pictures\addProjectToWs.gif[]
+====
+
+== 2. Configure Workspace to use it
+=== 2.1 Script location
+	To enable the script in the Workspace, you have to add the script location in the preferences.
+	Open the preferences and go to "Scripting->Script Locations" an add the project path (Workspace if imported, or filesystem) 
+	
+image::C:\github\EASE-Reset-M1\doc\pictures\ScriptLocation.gif[]
+
+=== 2.2 Add plugin
+	In the project you will find a "dropins" folder.
+	The content of this folder needs to be saved in the solution Center Installation path in th dropins folder.
+	e.g. Default: C:\bachmann\SolutionCenter\V2.50Release\dropins
+
+== 3. Finalize installation
+	Close the Solution Center and reopen it in the same workspace
+	You will now find a new tool in the toolbar of the Solution Navigator, which starts the reset of a M1-Controller
+	
+image::C:\github\EASE-Reset-M1\doc\pictures\Done.png[]
+	
