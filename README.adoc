@@ -41,7 +41,7 @@ image::doc\pictures\ScriptLocation.gif[]
 == 3. Finalize installation
 	Close the Solution Center and reopen it in the same workspace
 	You will now find a new tool in the toolbar of the Solution Navigator.
-	By press the new button (looks like the deplay icon) the reset of a M1-Controller will start.
+	By press the new button (looks like the deploy icon) the reset of a M1-Controller will start.
 	
 image::doc\pictures\Done.png[]
 	
