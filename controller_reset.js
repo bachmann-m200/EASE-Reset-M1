@@ -127,11 +127,13 @@ if (showQuestionDialog("Do you like to update your bootdevice "+mem, "Update "+m
 		var files = findFiles('*', dir, true)
 		for (var f in files)
 		{
-			m1.connect()
+			m1.connect()			
+			waitForEvent(null,250);
 			print(progress+='*')
 			regexArr[f] = new RegExp(/bootdevice.(.*)/gm);
 			var result = regexArr[f].exec(files[f].path)			
-			putFileToDevice(device, files[f].path, "/" + mem + "/" + result[1].replace(/\\/g, '/'));	
+			putFileToDevice(device, files[f].path, "/" + mem + "/" + result[1].replace(/\\/g, '/'));
+			waitForEvent(null,250);
 		}		
 	}
 	print('Copy files to M1. Please wait!')
