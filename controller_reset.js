@@ -133,6 +133,7 @@ if (showQuestionDialog("Do you like to update your bootdevice "+mem, "Update "+m
 			regexArr[f] = new RegExp(/bootdevice.(.*)/gm);
 			var result = regexArr[f].exec(files[f].path)			
 			putFileToDevice(device, files[f].path, "/" + mem + "/" + result[1].replace(/\\/g, '/'));
+			m1.connect()
 			waitForEvent(null,250);
 		}		
 	}
@@ -144,10 +145,12 @@ if (showQuestionDialog("Do you like to update your bootdevice "+mem, "Update "+m
 	print(progress+='*')
 }
 
-print(progress+='*')
-setMConfigValue(device, "SYSTEM", "Network", "NetAddress", devAdr + ":" + subnetmask);
-print(progress+='*')
-
+//TIP: Ask for set old ip here if needed: if (showQuestionDialog("Would you like to set the old IP-Address to the controller?\nYes: " + devAdr + ":" + subnetmask + "\nNo: "192.0.1.230:ffffff00")) {
+	print(progress+='*')
+	setMConfigValue(device, "SYSTEM", "Network", "NetAddress", devAdr + ":" + subnetmask);
+	print(progress+='*')
+// }  // IF TIP is used
+	
 if (showQuestionDialog("Do you like to reboot the M1 to complete reset?", "Reboot M1")){
 	clearConsole();
 	print("Reset and/or update of choosen device is finished");
